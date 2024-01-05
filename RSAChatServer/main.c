@@ -5,23 +5,37 @@
 
 //argument is port to host over
 
-struct Client {
-	char name[10]
-	int socket = -1;
-	int publicKey = 1;
+struct Server {
+	char name[10];
+	int publicKey;
+	int privateP;
+	int privateQ;
+	int privateE;
+	int D;
 }
+
+struct Client {
+	char name[10];
+	int sock;
+	int publicKey;
+};
 
 int main(int argc, char *argv[]) {
 	
 	if (argc == 1)	{
 		//socket
+		printf("calling socket\n");
+		int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 
 		//bind
-
+		printf("calling bind\n");
+		
 		//listen
-
+		printf("calling listen\n");
+		
 		//accept
-
+		printf("accepting\n");
+		
 		//fork to allow concurrent clients
 		
 		//ask for name and public key to send to others
