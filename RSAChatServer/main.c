@@ -2,6 +2,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <sys/socket.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
 
 //argument is port to host over
 
@@ -12,7 +15,7 @@ struct Server {
 	int privateQ;
 	int privateE;
 	int D;
-}
+};
 
 struct Client {
 	char name[10];
@@ -23,30 +26,20 @@ struct Client {
 int main(int argc, char *argv[]) {
 	
 	if (argc == 1)	{
-		//socket
-		printf("calling socket\n");
-		int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
-
-		//bind
-		printf("calling bind\n");
-		
-		//listen
-		printf("calling listen\n");
-		
-		//accept
-		printf("accepting\n");
-		
-		//fork to allow concurrent clients
-		
-		//ask for name and public key to send to others
-
-		//give them a "waiting string" while waiting for 2 clients to join
-
-		//once 2 are connected, give each other their public keys
-		//read write loop for each client sending encrypted data back and forth
-
-		//close
-		return 0;
+		int sock; //calling socket()
+		if ( sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) == 1 ) {
+			if () {
+			}
+			else {
+				printf("could not bind");
+				return -1;
+			}
+			return 0;
+		}
+		else {
+			printf("Error, socket couldn't be created");
+			return -1;
+		}
 	}
 	else {
 		printf("Error, port number expected as argument");
