@@ -31,17 +31,18 @@ int main(int argc, char *argv[]) {
 	//set up address struct
 
 	struct sockaddr_in serverAddy;
-
+	
+	//use internet address structure from inet/in.h
 	serverAddy.sin_family = AF_INET;
-	serverAddy.sin_port = htons();
+	serverAddy.sin_port = htons(*argv[0]); //use port from argument
 	serverAddy.sin_addr.s_addr = INADDR_ANY;
 	
 
 	//begin setting up socket for use with a single client
 	if (argc == 1)	{
 		int sockfd; //calling socket()
-		if ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) == 0 ) {
-			if (bind(sockfd, serverAddy, sizeof(serverAddy) ) == 0) {
+		if ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) == 0 ) {//create generic sockaddr structure from the sockaddr_in at the address we made
+			if (bind(sockfd, (const struct sockaddr*)&serverAddy, sizeof(serverAddy) ) == 0) {
 				//bind successful
 				if ( listen(sockfd, 1 ) == 0 ) {
 					if ( accept(sockfd, NULL, NULL) == 0 ) {
