@@ -41,12 +41,17 @@ int main(int argc, char *argv[]) {
 	//begin setting up socket for use with a single client
 	if (argc == 1)	{
 		int sockfd; //calling socket()
-		if ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) == 0 ) {//create generic sockaddr structure from the sockaddr_in at the address we made
+		if ( ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) ) > -1 ) {//create generic sockaddr structure from the sockaddr_in at the address we made
 			if (bind(sockfd, (const struct sockaddr*)&serverAddy, sizeof(serverAddy) ) == 0) {
+				printf("binded sockfd ");
+				printf("%d",sockfd);
 				//bind successful
 				if ( listen(sockfd, 1 ) == 0 ) {
-					if ( accept(sockfd, NULL, NULL) == 0 ) {
-						
+					printf("listening on port ");
+					printf("%d",*argv[0]);
+					printf("\n");
+					if ( accept(sockfd, NULL, NULL) > -1 ) {
+						printf("accepted connection from");
 					}
 					else {
 						printf("couldn't accept\n");
