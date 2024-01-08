@@ -51,17 +51,8 @@ int main(int argc, const char *argv[]) {
 					printf("listening on port ");
 					printf("%d",atoi(argv[1]));
 					printf("\n");
-					int newsockfd;
-					struct sockaddr_in clientAddy;
-					if ( (newsockfd = accept(sockfd, (struct sockaddr*)&clientAddy, NULL)) > -1 ) {
+					if ( accept(sockfd, NULL, NULL) > -1 ) {
 						printf("accepted connection from");
-						printf("%d", clientAddy.sin_addr.s_addr);
-						printf("sending nickname and public key");
-						//send nickname as first line
-						//send public key as second line
-
-						//start readwrite loop
-
 					}
 					else {
 						printf("couldn't accept\n");
