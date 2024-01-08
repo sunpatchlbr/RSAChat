@@ -26,7 +26,7 @@ struct clientinfo {
 	int publicKey;
 };
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
 	
 	//set up address struct
 
@@ -34,21 +34,22 @@ int main(int argc, char *argv[]) {
 	
 	//use internet address structure from inet/in.h
 	serverAddy.sin_family = AF_INET;
-	serverAddy.sin_port = htons(*argv[0]); //use port from argument
+	serverAddy.sin_port = htons(atoi(argv[1])); //use port from argument
 	serverAddy.sin_addr.s_addr = INADDR_ANY;
 	
 
 	//begin setting up socket for use with a single client
-	if (argc == 1)	{
+	if (argc == 2)	{
 		int sockfd; //calling socket()
 		if ( ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) ) > -1 ) {//create generic sockaddr structure from the sockaddr_in at the address we made
 			if (bind(sockfd, (const struct sockaddr*)&serverAddy, sizeof(serverAddy) ) == 0) {
 				printf("binded sockfd ");
 				printf("%d",sockfd);
+				printf("\n");
 				//bind successful
 				if ( listen(sockfd, 1 ) == 0 ) {
 					printf("listening on port ");
-					printf("%d",*argv[0]);
+					printf("%d",atoi(argv[1]));
 					printf("\n");
 					if ( accept(sockfd, NULL, NULL) > -1 ) {
 						printf("accepted connection from");
