@@ -11,7 +11,7 @@
 
 //argument is port to host over
 
-struct serverinfo {
+struct clientinfo {
 	char name[10];
 	int publicKey;
 	int privateP;
@@ -20,7 +20,7 @@ struct serverinfo {
 	int D;
 };
 
-struct clientinfo {
+struct serverinfo {
 	char name[10];
 	int sock;
 	int publicKey;
@@ -35,11 +35,11 @@ int main(int argc, const char *argv[]) {
 	//use internet address structure from inet/in.h
 	serverAddy.sin_family = AF_INET;
 	serverAddy.sin_port = htons(atoi(argv[1])); //use port from argument
-	serverAddy.sin_addr.s_addr = INADDR_ANY;
+	serverAddy.sin_addr.s_addr = inet_addr(*argv[2]);// use address from arg2
 	
 
 	//begin setting up socket for use with a single client
-	if (argc == 2)	{
+	if (argc == 3)	{
 		int sockfd; //calling socket()
 		if ( ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) ) > -1 ) {//create generic sockaddr structure from the sockaddr_in at the address we made
 			if (bind(sockfd, (const struct sockaddr*)&serverAddy, sizeof(serverAddy) ) == 0) {
@@ -51,8 +51,15 @@ int main(int argc, const char *argv[]) {
 					printf("listening on port ");
 					printf("%d",atoi(argv[1]));
 					printf("\n");
-					if ( accept(sockfd, NULL, NULL) > -1 ) {
-						printf("accepted connection from");
+					if ( connect(sockfd, (struct sockaddr*)&serverAddy, NULL)) {
+						printf("connected to");
+						printf("%d", serverAddy.sin_addr.s_addr);
+						printf("sending nickname and public key");
+						//send nickname as first line
+						//send public key as second line
+
+						//start readwrite loop
+
 					}
 					else {
 						printf("couldn't accept\n");
