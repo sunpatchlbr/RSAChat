@@ -35,7 +35,7 @@ int main(int argc, const char *argv[]) {
 	//use internet address structure from inet/in.h
 	serverAddy.sin_family = AF_INET;
 	serverAddy.sin_port = htons(atoi(argv[1])); //use port from argument
-	serverAddy.sin_addr.s_addr = inet_pton(argv[2]);// use address string from arg2
+	serverAddy.sin_addr.s_addr = inet_pton(AF_INET,argv[2]);// use address string from arg2
 	
 
 	//begin setting up socket for use with a single client
