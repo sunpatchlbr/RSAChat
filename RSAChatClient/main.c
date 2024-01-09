@@ -35,45 +35,26 @@ int main(int argc, const char *argv[]) {
 	//use internet address structure from inet/in.h
 	serverAddy.sin_family = AF_INET;
 	serverAddy.sin_port = htons(atoi(argv[1])); //use port from argument
-	serverAddy.sin_addr.s_addr = inet_addr(*argv[2]);// use address from arg2
+	serverAddy.sin_addr.s_addr = inet_pton(argv[2]);// use address string from arg2
 	
 
 	//begin setting up socket for use with a single client
 	if (argc == 3)	{
 		int sockfd; //calling socket()
 		if ( ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) ) > -1 ) {//create generic sockaddr structure from the sockaddr_in at the address we made
-			if (bind(sockfd, (const struct sockaddr*)&serverAddy, sizeof(serverAddy) ) == 0) {
-				printf("binded sockfd ");
-				printf("%d",sockfd);
-				printf("\n");
-				//bind successful
-				if ( listen(sockfd, 1 ) == 0 ) {
-					printf("listening on port ");
-					printf("%d",atoi(argv[1]));
-					printf("\n");
-					if ( connect(sockfd, (struct sockaddr*)&serverAddy, NULL)) {
-						printf("connected to");
-						printf("%d", serverAddy.sin_addr.s_addr);
-						printf("sending nickname and public key");
-						//send nickname as first line
-						//send public key as second line
+			if ( connect(sockfd, (struct sockaddr*)&serverAddy, NULL)) {
+				printf("connected to");
+				printf("%d", serverAddy.sin_addr.s_addr);
+				printf("sending nickname and public key");
+				//send nickname as first line
+				//send public key as second line
 
-						//start readwrite loop
-
-					}
-					else {
-						printf("couldn't accept\n");
-					}
-				}
-				else {
-					printf("couldn't listen\n");
-				}
+				//start readwrite loop
 			}
 			else {
-				printf("could not bind\n");
+				printf("could not connect\n");
 				return -1;
 			}
-			return 0;
 		}
 		else {
 			printf("Error, socket couldn't be created\n");
@@ -81,7 +62,7 @@ int main(int argc, const char *argv[]) {
 		}
 	}
 	else {
-		printf("Error, port number expected as argument\n");
+		printf("Error, not enough arguments\n");
 		return -1;
 	}
 } 
