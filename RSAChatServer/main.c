@@ -47,13 +47,13 @@ int main(int argc, const char *argv[]) {
 				printf("%d",sockfd);
 				printf("\n");
 				//bind successful
-				if ( listen(sockfd, 1 ) == 0 ) {
+				if ( listen(sockfd, 1 ) ==  0 ) {
 					printf("listening on port ");
 					printf("%d",atoi(argv[1]));
 					printf("\n");
 					int newsockfd;
 					struct sockaddr_in clientAddy;
-					if ( (newsockfd = accept(sockfd, (struct sockaddr*)&clientAddy, NULL)) > -1 ) {
+					if ( (newsockfd = accept(sockfd, (struct sockaddr*)&clientAddy, NULL)) == 0 ) {
 						printf("accepted connection from");
 						printf("%d", clientAddy.sin_addr.s_addr);
 						printf("sending nickname and public key");
