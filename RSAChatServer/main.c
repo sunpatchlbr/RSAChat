@@ -76,8 +76,8 @@ int main(int argc, const char *argv[]) {
 	printf("%d\n",atoi(argv[1]));
 	
 	int newsockfd;
-
-	if ( (newsockfd = accept(sockfd, (struct sockaddr*)&clientAddy, NULL)) != 0 ) {
+	socklen_t clientlen = sizeof(clientAddy);
+	if ( ( newsockfd = accept(sockfd, (struct sockaddr*)&clientAddy, &clientlen) ) <  -1 ) {
 		printf("accept failure\n");
 		exit(-1);
 	}
