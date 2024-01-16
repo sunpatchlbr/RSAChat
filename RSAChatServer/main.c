@@ -72,11 +72,24 @@ int main(int argc, const char *argv[]) {
 	inet_ntop(AF_INET, &clientAddy.sin_addr, clientString, sizeof(clientString));
 
 	printf("accepted connection from address: %s\n", clientString);
-	printf("beginning read write loop\n");
+	printf("beginning read write loop\n\n");
 
-	//send nickname as first line
-	//send public key as second line
+	int n;
+	char buffer[140];
+	for(;;) {
+		bzero(buffer,sizeof(buffer));
+		n = 0;
+		read(newsockfd, buffer, sizeof(buffer)); //read what client has said
+		while( (buffer[n++] = getchar()) != '\n')
+			;
+		write(newsockfd, buffer, sizeof(buffer)); //write buffer to socketfd
 
-	//start readwrite loop
+		if ( strncmp("EXIT", buffer, 4) == 0) {
+			printf("Exiting...");
+			break;
+		}
+	}
+
+	close(sockfd);
 	exit(0);
 } 
