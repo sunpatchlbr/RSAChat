@@ -13,23 +13,15 @@
 
 //argument is port to host over
 
-struct serverinfo {
-	char name[10];
-	int publicKey;
-	int privateP;
-	int privateQ;
-	int privateE;
-	int D;
-};
-
-struct clientinfo {
-	char name[10];
-	int sock;
-	int publicKey;
-};
-
 int main(int argc, const char *argv[]) {
 	
+	//check if argument is entered
+	if (argc != 2)	{
+		printf("Error, expected PORT as second argument\n");
+		exit(0);
+	}
+
+
 	//set up address struct
 
 	struct sockaddr_in serverAddy, clientAddy;
@@ -37,25 +29,18 @@ int main(int argc, const char *argv[]) {
 	//use internet address structure from inet/in.h
 	serverAddy.sin_family = AF_INET;
 	serverAddy.sin_port = htons(atoi(argv[1])); //use port from argument
-	serverAddy.sin_addr.s_addr = htonl(INADDR_ANY);
-	
+	serverAddy.sin_addr.s_addr = htonl(INADDR_ANY);	
 
-	//begin setting up socket for use with a single client
-	if (argc != 2)	{
-		printf("Error, expected 2 arguments\n");
-		exit(0);
-	}
+	int sockfd; //socket file descriptor
 	
+	printf("\nCreating socket to use for chat...\n");
 
-	int sockfd; //calling socket()
-	
-	//create generic sockaddr structure from the sockaddr_in at the address we made
+	//create generic sockaddr structure using sockstream from the sockaddr_in at the address we made
 	if ( ( sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP) ) == -1 ) { 
 		printf("Error, socket couldn't be created\n");
 		exit(-1);
 	}
-	//bzero(&serverAddy, sizeof(serverAddy));
-
+	
 	printf("socket created on fd %d\n", sockfd);
 
 	//bind the addres to the sock fd
@@ -64,7 +49,7 @@ int main(int argc, const char *argv[]) {
 		exit(-1);
 	}
 
-	printf("bound sockfd %d\n", sockfd);
+	printf("bound address to sockfd %d\n", sockfd);
 	
 	//now we listen
 	if ( listen(sockfd, 1 ) !=  0 ) {
@@ -82,13 +67,16 @@ int main(int argc, const char *argv[]) {
 		exit(-1);
 	}
 
-	printf("accepted connection from");
-	printf("%d", clientAddy.sin_addr.s_addr);
-	printf("sending nickname and public key");
+	char clientString[INET_ADDRSTRLEN];
+	//create a string of the ipv4 address
+	inet_ntop(AF_INET, &clientAddy.sin_addr, clientString, sizeof(clientString));
 
+	printf("accepted connection from address: %s\n", clientString);
+	printf("beginning read write loop\n");
 
 	//send nickname as first line
 	//send public key as second line
 
 	//start readwrite loop
+	exit(0);
 } 
