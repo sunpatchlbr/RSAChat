@@ -39,51 +39,53 @@ int main(int argc, const char *argv[]) {
 	
 
 	//begin setting up socket for use with a single client
-	if (argc == 2)	{
-		int sockfd; //calling socket()
-		if ( ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) ) > -1 ) {//create generic sockaddr structure from the sockaddr_in at the address we made
-			if (bind(sockfd, (const struct sockaddr*)&serverAddy, sizeof(serverAddy) ) == 0) {
-				printf("binded sockfd ");
-				printf("%d",sockfd);
-				printf("\n");
-				//bind successful
-				if ( listen(sockfd, 1 ) ==  0 ) {
-					printf("listening on port ");
-					printf("%d",atoi(argv[1]));
-					printf("\n");
-					int newsockfd;
-					struct sockaddr_in clientAddy;
-					if ( (newsockfd = accept(sockfd, (struct sockaddr*)&clientAddy, NULL)) == 0 ) {
-						printf("accepted connection from");
-						printf("%d", clientAddy.sin_addr.s_addr);
-						printf("sending nickname and public key");
-						//send nickname as first line
-						//send public key as second line
-
-						//start readwrite loop
-
-					}
-					else {
-						printf("couldn't accept\n");
-					}
-				}
-				else {
-					printf("couldn't listen\n");
-				}
-			}
-			else {
-				printf("could not bind\n");
-				return -1;
-			}
-			return 0;
-		}
-		else {
-			printf("Error, socket couldn't be created\n");
-			return -1;
-		}
+	if (argc != 2)	{
+		printf("Error, expected 2 arguments\n");
+		exit(0);
 	}
-	else {
-		printf("Error, port number expected as argument\n");
-		return -1;
+
+	int sockfd; //calling socket()
+	
+	//create generic sockaddr structure from the sockaddr_in at the address we made
+	if ( ( sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) ) != 0 ) { 
+		printf("Error, socket couldn't be created\n");
+		exit(-1);
 	}
+
+	printf("socket created on fd %d\n", sockfd);
+
+	//bind the addres to the sock fd
+	if (bind(sockfd, (const struct sockaddr*)&serverAddy, sizeof(serverAddy) ) != 0) {
+		printf("Error, address could not be bound to socket\n");
+		exit(-1);
+	}
+
+	printf("bound sockfd %d\n", sockfd);
+	
+	//now we listen
+	if ( listen(sockfd, 1 ) !=  0 ) {
+		printf("Error, listen failure\n");
+		exit(-1);
+	}
+
+	printf("listening on port ");
+	printf("%d\n",atoi(argv[1]));
+	
+	int newsockfd;
+	struct sockaddr_in clientAddy;
+
+	if ( (newsockfd = accept(sockfd, (struct sockaddr*)&clientAddy, NULL)) != 0 ) {
+		printf("accept failure\n");
+		exit(-1);
+	}
+
+	printf("accepted connection from");
+	printf("%d", clientAddy.sin_addr.s_addr);
+	printf("sending nickname and public key");
+
+
+	//send nickname as first line
+	//send public key as second line
+
+	//start readwrite loop
 } 
