@@ -75,14 +75,17 @@ int main(int argc, const char *argv[]) {
 	printf("beginning read write loop\n\n");
 
 	int n;
+	int count = 0;
 	char buffer[140];
 	for(;;) {
-		bzero(buffer,sizeof(buffer));
 		n = 0;
-		read(newsockfd, buffer, sizeof(buffer)); //read what client has said
-		while( (buffer[n++] = getchar()) != '\n')
+		bzero(buffer,140);
+		read(newsockfd, buffer, 140); //read what client has said
+		printf("%d: %s ( size: %d )\n", count++, buffer, sizeof(buffer));
+
+		while( n < 140 && (buffer[n++] = getchar()) != '\n')
 			;
-		write(newsockfd, buffer, sizeof(buffer)); //write buffer to socketfd
+		write(newsockfd, buffer, 140); //write buffer to socketfd
 
 		if ( strncmp("EXIT", buffer, 4) == 0) {
 			printf("Exiting...");
