@@ -81,14 +81,23 @@ int main(int argc, const char *argv[]) {
 		n = 0;
 		bzero(buffer,140);
 		read(newsockfd, buffer, 140); //read what client has said
-		printf("%d: %s ( size: %d )\n", count++, buffer, sizeof(buffer));
+		printf("%d READ: %s\n", count, buffer);
+		
+		if ( strncmp("EXIT", buffer, 4) == 0) {
+			printf("Client Exiting...");
+			break;
+		}
 
+		bzero(buffer, 140);
+		printf("%d WRITE: ", count++);
 		while( n < 140 && (buffer[n++] = getchar()) != '\n')
 			;
 		write(newsockfd, buffer, 140); //write buffer to socketfd
+		
+		printf("\n\n");
 
 		if ( strncmp("EXIT", buffer, 4) == 0) {
-			printf("Exiting...");
+			printf("Server Exiting...");
 			break;
 		}
 	}

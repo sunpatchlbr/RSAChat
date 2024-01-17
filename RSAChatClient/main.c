@@ -47,23 +47,35 @@ int main(int argc, const char *argv[]) {
 	}
 
 	printf("connected\n\n\n"); // to %s\n", *outAddy);
-	
+	printf("beginning write read loop\n\n");
+
 	int n;
 	int count = 0;
 	char buffer[140];
 	for(;;){ // begin read write loop
 		bzero(buffer,140);
 		n = 0;
+		printf("%d WRITE: ", count);
 		while ( n < 140 && (buffer[n++] = getchar()) != '\n')
 			;
 		// user input goes to buffer until newline key is pressed
 		write(sockfd, buffer, 140);
-		read(sockfd, buffer, 140); // read what the server has sent
-		printf("%d:%s ( size: %d ) \n", count++, buffer, sizeof(buffer));
+		printf("\n\n");
+		
 		if(strncmp(buffer,"EXIT",4) == 0) {
-			printf("Exiting...\n\n");
+			printf("Client Exiting...\n\n");
 			break;
 		}
+		
+		bzero(buffer, 140);
+		read(sockfd, buffer, 140); // read what the server has sent
+		printf("%d READ: %s \n\n", count++, buffer, sizeof(buffer));
+
+		if(strncmp(buffer,"EXIT",4) == 0) {
+			printf("Server Exiting...\n\n");
+			break;
+		}
+		
 	}
 
 	exit(0);
