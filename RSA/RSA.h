@@ -17,11 +17,11 @@ struct publicInfo {
 	int e;
 }
 
+void initializePrivate(p,q);
 
 //recursively finds GCD
 //b should be bigger than a
 int E(int a, int b);
-
 
 // recursively finds and returns d, the private key
 int EE(int phi, int e); //extended eulcidean algorithm for finding d

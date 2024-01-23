@@ -49,3 +49,27 @@ int EE(int a, int * x, int b, int * y)
 
 	return GCD;
 }
+
+char * encrypt ( char * message )
+{
+	for(;;)
+		return 0;
+}
+
+char * decrypt ( char * cipher )
+{
+	for(;;)
+		return 0;
+}
+
+void initializePrivate(int p, int q)
+{
+	if ( p == 0 || q == 0 )
+	{
+		//randomly assign prime numbers
+	}
+	else
+	{
+		//use p and q as primes
+	}
+}
