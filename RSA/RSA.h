@@ -17,10 +17,12 @@ struct publicInfo {
 	int e;
 }
 
+
 //recursively finds GCD
+//b should be bigger than a
 int E(int a, int b);
 
-//
+
 // recursively finds and returns d, the private key
 int EE(int phi, int e); //extended eulcidean algorithm for finding d
 // first take in phi of n and e
@@ -29,10 +31,8 @@ int EE(int phi, int e); //extended eulcidean algorithm for finding d
 // since d*e = 1mod(phi(n))
 // d will be that coeffient modphi(n)
 
-
-
 // C = (M^e)mod(n)
-// returns the cipher text
+//returns the cipher text
 char * encrypt( char * messagge);
 
 // M = (C^d)mod(n)
