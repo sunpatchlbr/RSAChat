@@ -36,7 +36,7 @@ int EE(int phi, int e); //extended eulcidean algorithm for finding d
 //returns the cipher text
 // M = (C^d)mod(n)
 // returns the message
-void crypt( char * target , char * initial, int n, int x);
+void crypt( int * target , int * initial, int n, int x);
 
 //use for exponentiation within crypt()
 void pow(int x, int y);

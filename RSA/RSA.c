@@ -53,32 +53,39 @@ int EE(int a, int * x, int b, int * y)
 //use n
 //use e as x for encrypting the message
 //use d as x for decrypting the cipher
-void crypt ( char * target, char * initial, int n, int x)
+void crypt ( int * target, int * initial, int n, int x)
 {
 	int s = sizeof(*target);
 	int m = sizeof(*message);
 	for(int i = 0; i < s && is < m; i++)
 	{
-		*target[i] = ( *message[i] ) % n;
+		*target[i] = ( pow(*message[i], x) ) % n;
 	}
 }
 
-
+//iterative power
 int pow(int x, int y)
-{
+{	
 	//initial value
 	int z = 1;
-	//if current exponent is odd, use multiply by current base
-	if (y&1)
-		z = z * x;
-	//half exponent
-	y = y>>1;
-	//square current base
-	x = x*x;
+		
+	while (y>0)
+	{
+		//if current exponent is odd, use multiply by current base
+		if (y&1)
+			z = z * x;
+		//half exponent
+		y = y/2;
+		//square current base
+		x = x*x;
+	}
+	return z;
 }
 
-void initializePrivate(int p, int q)
+//initialize a privateInfo struct
+void initializePrivate(struct privateInfo * PI, int p, int q)
 {
+	/*
 	if ( p == 0 || q == 0 )
 	{
 		//randomly assign prime numbers
@@ -86,5 +93,12 @@ void initializePrivate(int p, int q)
 	else
 	{
 		//use p and q as primes
-	}
+	}*/
+	*PI.p = p;
+	*PI.q = q;
+	*PI.n = p * q;
+	*PI.e = 2; //use 2 as e for now, fastest
+	int phin = (p-1) * (q-1);
+	int * tempy = e;
+	EE(phin, ); //call extend euclidean to find the private key d
 }
