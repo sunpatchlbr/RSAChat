@@ -50,16 +50,31 @@ int EE(int a, int * x, int b, int * y)
 	return GCD;
 }
 
-char * encrypt ( char * message )
+//use n
+//use e as x for encrypting the message
+//use d as x for decrypting the cipher
+void crypt ( char * target, char * initial, int n, int x)
 {
-	for(;;)
-		return 0;
+	int s = sizeof(*target);
+	int m = sizeof(*message);
+	for(int i = 0; i < s && is < m; i++)
+	{
+		*target[i] = ( *message[i] ) % n;
+	}
 }
 
-char * decrypt ( char * cipher )
+
+int pow(int x, int y)
 {
-	for(;;)
-		return 0;
+	//initial value
+	int z = 1;
+	//if current exponent is odd, use multiply by current base
+	if (y&1)
+		z = z * x;
+	//half exponent
+	y = y>>1;
+	//square current base
+	x = x*x;
 }
 
 void initializePrivate(int p, int q)

@@ -31,12 +31,14 @@ int EE(int phi, int e); //extended eulcidean algorithm for finding d
 // since d*e = 1mod(phi(n))
 // d will be that coeffient modphi(n)
 
+//use for both encryption and decryption
 // C = (M^e)mod(n)
 //returns the cipher text
-char * encrypt( char * messagge);
-
 // M = (C^d)mod(n)
 // returns the message
-char * decrypt( char * cipher);
+void crypt( char * target , char * initial, int n, int x);
+
+//use for exponentiation within crypt()
+void pow(int x, int y);
 
 #endif
