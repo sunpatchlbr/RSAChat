@@ -68,14 +68,14 @@ int pow(int x, int y)
 {	
 	//initial value
 	int z = 1;
-		
 	while (y>0)
 	{
-		//if current exponent is odd, use multiply by current base
+		//if current exponent is odd,
+		//use multiply by current base
 		if (y&1)
 			z = z * x;
 		//half exponent
-		y = y/2;
+		y = y>>1;
 		//square current base
 		x = x*x;
 	}
@@ -85,20 +85,18 @@ int pow(int x, int y)
 //initialize a privateInfo struct
 void initializePrivate(struct privateInfo * PI, int p, int q)
 {
-	/*
-	if ( p == 0 || q == 0 )
-	{
-		//randomly assign prime numbers
-	}
-	else
-	{
-		//use p and q as primes
-	}*/
 	*PI.p = p;
 	*PI.q = q;
 	*PI.n = p * q;
 	*PI.e = 2; //use 2 as e for now, fastest
 	int phin = (p-1) * (q-1);
-	int * tempy = e;
-	EE(phin, ); //call extend euclidean to find the private key d
+	int * d;//temporary	
+	
+	//use phin as b (bigger), k is coefficient for phin
+	//use e as a (smaller), 
+	//d is coefficient(modular inverse) for e
+	//call extend euclidean to find the private key d
+	EE(e, k, phin, d); 
+
+	*PI.d = *d; //assign value of d to PI for private key
 }

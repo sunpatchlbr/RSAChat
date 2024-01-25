@@ -1,0 +1,10 @@
+CC=gcc
+CFLAGS=-Wall
+DEPS = RSA.h
+OBJ = RSA.o
+
+%.o: %.c $(DEPS)
+	$(CC) -o $@ $< $(CFLAGS)
+
+RSATEST: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)

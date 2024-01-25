@@ -10,21 +10,21 @@ struct privateInfo {
 	int n; // equal to p*q
 	int e; // greater than 1, less than phi of n
 	int d; // equal to ( phi(n) * i + 1) / e
-}
+};
 
 struct publicInfo {
 	int n; //needed for public key, larger the better, so it can't be factored reasonably
 	int e;
-}
+};
 
-void initializePrivate(p,q);
+void initializePrivate(struct privateInfo * PI, int p, int q);
 
 //recursively finds GCD
 //b should be bigger than a
 int E(int a, int b);
 
 // recursively finds and returns d, the private key
-int EE(int phi, int e); //extended eulcidean algorithm for finding d
+int EE(int e, int phi); //extended eulcidean algorithm for finding d
 // first take in phi of n and e
 // find GCD of phin and e = 1, so you can get recursively find 1 as a linear combination of phin and e,
 // the coeffient of e is going to be the modular inverse of d
@@ -39,6 +39,6 @@ int EE(int phi, int e); //extended eulcidean algorithm for finding d
 void crypt( int * target , int * initial, int n, int x);
 
 //use for exponentiation within crypt()
-void pow(int x, int y);
+void fastpow(int x, int y);
 
 #endif
