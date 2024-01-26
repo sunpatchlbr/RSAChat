@@ -1,3 +1,4 @@
+#include "RSA.h"
 //RSA.c
 
 //Euclidean algorithm
@@ -35,7 +36,9 @@ int EE(int a, int * x, int b, int * y)
 	int xi, yi; // current values for coefficients
 
 	//recursively call EE to find next level
-	int GCD = return EE( b%a, a, &xi, &yi);
+	//b%a is the new a
+	//a is the new b
+	int GCD = EE( b%a, &xi, a, &yi);
 	
 	//ax + by = GCD(a,b) (bezout's theorem)
 	//GCD(a,b) = GCD(b%a,a) (euclidean alg)
@@ -53,18 +56,18 @@ int EE(int a, int * x, int b, int * y)
 //use n
 //use e as x for encrypting the message
 //use d as x for decrypting the cipher
-void crypt ( int * target, int * initial, int n, int x)
+void crypt ( int * target[], int * initial[], int n, int x)
 {
 	int s = sizeof(*target);
-	int m = sizeof(*message);
-	for(int i = 0; i < s && is < m; i++)
+	int m = sizeof(*initial);
+	for(int i = 0; i < s && i < m; i++)
 	{
-		*target[i] = ( pow(*message[i], x) ) % n;
+		*target[i] = ( powit((*initial[i]), x) ) % n;
 	}
 }
 
 //iterative power
-int pow(int x, int y)
+int powit(int x, int y)
 {	
 	//initial value
 	int z = 1;
@@ -83,12 +86,12 @@ int pow(int x, int y)
 }
 
 //initialize a privateInfo struct
-void initializePrivate(struct privateInfo * PI, int p, int q)
+void initializePrivate(privateInfo * PI, int p, int q)
 {
-	*PI.p = p;
-	*PI.q = q;
-	*PI.n = p * q;
-	*PI.e = 2; //use 2 as e for now, fastest
+	PI->p = p;
+	PI->q = q;
+	PI->n = p * q;
+	PI->e = 2; //use 2 as e for now, fastest
 	int phin = (p-1) * (q-1);
 	int * d;//temporary	
 	
@@ -98,5 +101,5 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	//call extend euclidean to find the private key d
 	EE(e, k, phin, d); 
 
-	*PI.d = *d; //assign value of d to PI for private key
+	*PI->d = *d; //assign value of d to PI for private key
 }

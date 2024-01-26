@@ -17,7 +17,7 @@ struct publicInfo {
 	int e;
 };
 
-void initializePrivate(struct privateInfo * PI, int p, int q);
+void initializePrivate(privateInfo * PI, int p, int q);
 
 //recursively finds GCD
 //b should be bigger than a
@@ -36,9 +36,9 @@ int EE(int e, int phi); //extended eulcidean algorithm for finding d
 //returns the cipher text
 // M = (C^d)mod(n)
 // returns the message
-void crypt( int * target , int * initial, int n, int x);
+void crypt( int * target[], int * initial[], int n, int x);
 
 //use for exponentiation within crypt()
-void fastpow(int x, int y);
+void powit(int x, int y);
 
 #endif
