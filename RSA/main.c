@@ -4,19 +4,20 @@
 
 int main (int argc, int * argv[])
 {
-	struct privateInfo * PI;
+	struct privateInfo prinfo;
+	struct privateInfo * PI = &prinfo;
 	char message[] = "hello";
-	char encrypted[sizeof(message)];
+	int encrypted[sizeof(message)];
 	char decrypted[sizeof(message)];
 
 	initializePrivate( PI, 23, 83 );
 
 	printf("Original message: %s\n", message);
 
-	crypt(&encrypted, &message, PI.n, PI.e);
+	encrypt(&encrypted, &message, PI);
 	printf("After encryption: %s\n", encrypted);
 
-	crypt(&decrypted, &encrypted, PI.n, PI.d);
+	decrypt(&decrypted, &encrypted, PI);
 	printf("After decryption: %s\n", decrypted);
 
 }

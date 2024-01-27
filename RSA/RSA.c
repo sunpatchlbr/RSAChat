@@ -53,6 +53,31 @@ int EE(int a, int * x, int b, int * y)
 	return GCD;
 }
 
+//used to turn char message into integer cipher
+void encrypt( int * cipher[], char * message[], struct privateInfo * PI )
+{
+	int * intmessage[sizeof(*message)];
+	for(int i = 0; i < sizeof(*message); i++)
+	{
+		*intmessage[i] = *message[i];
+	} // pull the chars into ints for bigger size
+	crypt(&cipher, &intmessage, PI->n, PI->e);
+}
+
+
+//used to turn integer cipher into a decrypted char message
+void decrypt( char * message[], int * cipher[], struct privateInfo * PI )
+{
+	int * intmessage[sizeof(*cipher)];
+	crypt(&intmessage, &cipher, PI->n, PI->e);
+	for(int i = 0; i < sizeof(*intmessage); i++)
+	{
+		*message[i] = (*intmessage[i]);
+	} // pull the chars into ints for bigger size
+}
+
+
+
 //use n
 //use e as x for encrypting the message
 //use d as x for decrypting the cipher
@@ -86,20 +111,21 @@ int powit(int x, int y)
 }
 
 //initialize a privateInfo struct
-void initializePrivate(privateInfo * PI, int p, int q)
+void initializePrivate(struct privateInfo * PI, int p, int q)
 {
 	PI->p = p;
 	PI->q = q;
 	PI->n = p * q;
 	PI->e = 2; //use 2 as e for now, fastest
 	int phin = (p-1) * (q-1);
-	int * d;//temporary	
+	int * k = 0;
+	int * d = 0;//temporary	
 	
 	//use phin as b (bigger), k is coefficient for phin
 	//use e as a (smaller), 
 	//d is coefficient(modular inverse) for e
 	//call extend euclidean to find the private key d
-	EE(e, k, phin, d); 
+	EE(PI->e, k, phin, d); 
 
-	*PI->d = *d; //assign value of d to PI for private key
+	PI->d = *d; //assign value of d to PI for private key
 }

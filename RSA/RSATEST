@@ -1,10 +1,9 @@
-CC=gcc
-CFLAGS=-Wall
-DEPS = RSA.h
-OBJ = RSA.o
 
-%.o: %.c $(DEPS)
-	$(CC) -o $@ $< $(CFLAGS)
+rsatest : main.o rsa.o
+	cc -o rsatest main.o rsa.o
 
-RSATEST: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+main.o : main.c rsa.h
+	cc -c main.c
+
+rsa.o : rsa.h rsa.c
+	cc -c rsa.o rsa.h rsa.c
