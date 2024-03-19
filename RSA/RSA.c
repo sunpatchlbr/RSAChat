@@ -118,16 +118,15 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	PI->n = p * q;
 	PI->e = 2; //use 2 as e for now, fastest
 	int phin = (p-1) * (q-1);
-	int * k = 0;
-	int * d = 0;//temporary	
+	int k, d;//temporary	
 	
 	//use phin as b (bigger), k is coefficient for phin
 	//use e as a (smaller), 
 	//d is coefficient(modular inverse) for e
 	//call extend euclidean to find the private key d
-	//EE(PI->e, phin, k, d); 
-
-	//PI->d = *d; //assign value of d to PI for private key
+	EE(PI->e, phin, &d, &k); 
+	PI->k = k;
+	PI->d = d; //assign value of d to PI for private key
 	printf("p = %d\nq = %d\nn = %d\ne = 2\nphin = %d\nk = %d\nd = %d\n",
-		PI->p,PI->q,PI->n,phin,*k,*d);
+	  PI->p,PI->q,PI->n,phin,PI->k,PI->d);
 }

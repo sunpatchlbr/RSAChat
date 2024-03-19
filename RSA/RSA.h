@@ -9,6 +9,7 @@ struct privateInfo {
 	int q; // must be prime
 	int n; // equal to p*q
 	int e; // greater than 1, less than phi of n
+	int k; // coefficient for phin
 	int d; // equal to ( phi(n) * i + 1) / e
 };
 
