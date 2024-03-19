@@ -24,7 +24,7 @@ void initializePrivate(struct privateInfo * PI, int p, int q);
 int E(int a, int b);
 
 // recursively finds and returns d, the private key
-int EE(int a, int * x, int b, int * y); //extended eulcidean algorithm for finding d
+int EE(int a, int b, int * x, int * y); //extended eulcidean algorithm for finding d
 // first take in phi of n and e
 // find GCD of phin and e = 1, so you can get recursively find 1 as a linear combination of phin and e,
 // the coeffient of e is going to be the modular inverse of d

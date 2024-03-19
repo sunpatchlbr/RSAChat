@@ -1,9 +1,0 @@
-
-rsatest : main.o rsa.o
-	cc -g -o rsatest main.o rsa.o
-
-main.o : main.c rsa.h
-	cc -c main.c
-
-rsa.o : rsa.h rsa.c
-	cc -c rsa.o rsa.h rsa.c

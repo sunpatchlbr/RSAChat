@@ -21,7 +21,7 @@ int E(int a, int b)
 //coefficients as we build back up
 
 //GCD = ax + by
-int EE(int a, int * x, int b, int * y)
+int EE(int a, int b, int * x, int * y)
 {
 	//base case, we hit zero at the stopping point
 	//so we must assign 1 as the current coefficient
@@ -38,7 +38,7 @@ int EE(int a, int * x, int b, int * y)
 	//recursively call EE to find next level
 	//b%a is the new a
 	//a is the new b
-	int GCD = EE( b%a, &xi, a, &yi);
+	int GCD = EE( b%a, a, &xi, &yi);
 	
 	//ax + by = GCD(a,b) (bezout's theorem)
 	//GCD(a,b) = GCD(b%a,a) (euclidean alg)
@@ -61,7 +61,7 @@ void encrypt( int * cipher[], char * message[], struct privateInfo * PI )
 	{
 		*intmessage[i] = *message[i];
 	} // pull the chars into ints for bigger size
-	crypt(&cipher, &intmessage, PI->n, PI->e);
+	crypt(cipher, intmessage, PI->n, PI->e);
 }
 
 
@@ -69,7 +69,7 @@ void encrypt( int * cipher[], char * message[], struct privateInfo * PI )
 void decrypt( char * message[], int * cipher[], struct privateInfo * PI )
 {
 	int * intmessage[sizeof(*cipher)];
-	crypt(&intmessage, &cipher, PI->n, PI->e);
+	crypt(intmessage, cipher, PI->n, PI->e);
 	for(int i = 0; i < sizeof(*intmessage); i++)
 	{
 		*message[i] = (*intmessage[i]);
@@ -125,7 +125,9 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	//use e as a (smaller), 
 	//d is coefficient(modular inverse) for e
 	//call extend euclidean to find the private key d
-	EE(PI->e, k, phin, d); 
+	//EE(PI->e, phin, k, d); 
 
-	PI->d = *d; //assign value of d to PI for private key
+	//PI->d = *d; //assign value of d to PI for private key
+	printf("p = %d\nq = %d\nn = %d\ne = 2\nphin = %d\nk = %d\nd = %d\n",
+		PI->p,PI->q,PI->n,phin,*k,*d);
 }

@@ -1,23 +1,33 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "RSA.h"
 
-int main (int argc, int * argv[])
+int main (int argc, char * argv[])
 {
-	struct privateInfo prinfo;
-	struct privateInfo * PI = &prinfo;
-	char message[] = "hello";
-	int encrypted[sizeof(message)];
-	char decrypted[sizeof(message)];
+	struct privateInfo * PIptr, PI;
+	PIptr = &PI;
+	char input[] = "hello";
+	int encrypted[sizeof(input)];
+	int * cipher = encrypted;
+	char decrypted[sizeof(input)];
+	char * message = decrypted;
 
-	initializePrivate( PI, 23, 83 );
+	int x, y;
+	int a = atoi(argv[1]);
+	int b = atoi(argv[2]);
+	int test = EE(a, b, &x, &y);
 
-	printf("Original message: %s\n", message);
+	printf("(%d)*(%d) + (%d)*(%d) = %d\n",x,a,y,b,test);
+	
+	initializePrivate( PIptr, 23, 83 );
 
-	encrypt(&encrypted, &message, PI);
-	printf("After encryption: %s\n", encrypted);
+	/*printf("Input  message: %s\n", input);
 
-	decrypt(&decrypted, &encrypted, PI);
-	printf("After decryption: %s\n", decrypted);
+	encrypt(cipher, message, PI);
+	printf("Cipher after  encryption: %s\n", encrypted);
+
+	//decrypt(&decrypted, &encrypted, PI);
+	printf("Message after decryption: %s\n", decrypted);*/
 
 }
