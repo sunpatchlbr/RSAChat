@@ -32,7 +32,7 @@ int EE(int a, int b, int * x, int * y); //extended eulcidean algorithm for findi
 // since d*e = 1mod(phi(n))
 // d will be that coeffient modphi(n)
 
-void encrypt( int * cipher[], char * message[], struct privateInfo * PI);
+void encrypt( int cipher[], char message[], struct privateInfo * PI);
 
 void decrypt(char * message[], int * cipher[], struct privateInfo * PI);
 

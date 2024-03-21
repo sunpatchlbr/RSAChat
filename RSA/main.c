@@ -11,10 +11,11 @@ int main (int argc, char * argv[])
 	int * cipher = encrypted;
 	char decrypted[sizeof(input)];
 	char * message = decrypted;
-	/*
-	int x, y;
+
 	int a = atoi(argv[1]);
 	int b = atoi(argv[2]);
+
+	/*
 	int test = EE(a, b, &x, &y);
 
 	printf("(%d)*(%d) + (%d)*(%d) = %d\n",x,a,y,b,test);
@@ -23,10 +24,10 @@ int main (int argc, char * argv[])
 
 	printf("Input  message: %s\n", input);
 
-	encrypt(cipher, message, PI);
-	printf("Cipher after  encryption: %s\n", encrypted);
+	encrypt(cipher, (char *)input, (struct privateInfo*) &PI);
+	printf("Cipher after  encryption: %s\n", cipher);
 
 	//decrypt(&decrypted, &encrypted, PI);
-	printf("Message after decryption: %s\n", decrypted);
+	printf("Message after decryption: %s\n", message);
 
 }

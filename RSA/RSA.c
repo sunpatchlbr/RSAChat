@@ -54,14 +54,17 @@ int EE(int a, int b, int * x, int * y)
 }
 
 //used to turn char message into integer cipher
-void encrypt( int * cipher[], char * message[], struct privateInfo * PI )
+void encrypt( int cipher[], char message[], struct privateInfo * PI )
 {
-	int * intmessage[sizeof(*message)];
+	int intmessage[sizeof(message)];
+	printf("nsize: %d", sizeof(message));
 	for(int i = 0; i < sizeof(*message); i++)
 	{
-		*intmessage[i] = *message[i];
+		intmessage[i] = message[i];
+		printf("%d: %s, %d",i,message[i],intmessage[i]);		
 	} // pull the chars into ints for bigger size
-	crypt(cipher, intmessage, PI->n, PI->e);
+	printf("message: %s\n",message);
+	//crypt(cipher, &intmessage, PI->n, PI->e);
 }
 
 
