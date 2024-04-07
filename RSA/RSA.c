@@ -54,28 +54,28 @@ int EE(int a, int b, int * x, int * y)
 }
 
 //used to turn char message into integer cipher
-void encrypt( int cipher[], char message[], struct privateInfo * PI )
+void encrypt( int cipher[], char message[], int messagelength, struct privateInfo * PI )
 {
-	int intmessage[sizeof(message)];
-	printf("nsize: %d", sizeof(message));
-	for(int i = 0; i < sizeof(*message); i++)
+	int intmessage[messagelength];
+	printf("\nsize: %d", messagelength);
+	for(int i = 0; i < messagelength; i++)
 	{
 		intmessage[i] = message[i];
-		printf("%d: %s, %d",i,message[i],intmessage[i]);		
+		printf("%d: %d, %d",i,message[i],intmessage[i]);		
 	} // pull the chars into ints for bigger size
 	printf("message: %s\n",message);
-	//crypt(cipher, &intmessage, PI->n, PI->e);
+	//crypt(cipher, intmessage, messagelength, PI->n, PI->e);
 }
 
 
 //used to turn integer cipher into a decrypted char message
-void decrypt( char * message[], int * cipher[], struct privateInfo * PI )
+void decrypt( char message[], int cipher[], int messagelength, struct privateInfo * PI )
 {
-	int * intmessage[sizeof(*cipher)];
-	crypt(intmessage, cipher, PI->n, PI->e);
+	int intmessage[messagelength];
+	crypt(intmessage, cipher, messagelength, PI->n, PI->e);
 	for(int i = 0; i < sizeof(*intmessage); i++)
 	{
-		*message[i] = (*intmessage[i]);
+		message[i] = (char)intmessage[i];
 	} // pull the chars into ints for bigger size
 }
 
@@ -84,13 +84,11 @@ void decrypt( char * message[], int * cipher[], struct privateInfo * PI )
 //use n
 //use e as x for encrypting the message
 //use d as x for decrypting the cipher
-void crypt ( int * target[], int * initial[], int n, int x)
+void crypt ( int  target[], int initial[], int size, int n, int x)
 {
-	int s = sizeof(*target);
-	int m = sizeof(*initial);
-	for(int i = 0; i < s && i < m; i++)
+	for(int i = 0; i < size; i++)
 	{
-		*target[i] = ( powit((*initial[i]), x) ) % n;
+		target[i] = ( powit(initial[i], x) ) % n;
 	}
 }
 

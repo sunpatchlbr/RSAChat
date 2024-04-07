@@ -7,11 +7,9 @@ int main (int argc, char * argv[])
 {
 	struct privateInfo PI;
 	char input[] = "hello";
-	int encrypted[sizeof(input)];
-	int * cipher = encrypted;
-	char decrypted[sizeof(input)];
-	char * message = decrypted;
-
+	int messagelength = sizeof(input);
+	int cipher[messagelength];
+	char message[messagelength];
 	int a = atoi(argv[1]);
 	int b = atoi(argv[2]);
 
@@ -24,10 +22,10 @@ int main (int argc, char * argv[])
 
 	printf("Input  message: %s\n", input);
 
-	encrypt(cipher, (char *)input, (struct privateInfo*) &PI);
+	encrypt(cipher, input, messagelength, (struct privateInfo*) &PI);
 	printf("Cipher after  encryption: %s\n", cipher);
 
-	//decrypt(&decrypted, &encrypted, PI);
+	decrypt(message, cipher,  messagelength, (struct privateInfo*) &PI);
 	printf("Message after decryption: %s\n", message);
 
 }
