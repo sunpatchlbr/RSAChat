@@ -79,10 +79,10 @@ void decrypt( char message[], int cipher[], int messagelength, struct privateInf
 {
 	int intmessage[messagelength];
 	crypt(intmessage, cipher, messagelength, PI->n, PI->d);
-	for(int i = 0; i < sizeof(*intmessage); i++)
+	for(int i = 0; i < messagelength; i++)
 	{
 		message[i] = (char)intmessage[i];
-		printf("intmessage[%d] : %d\n",i,intmessage[i]);
+		printf("message[%d] : %d\n",i,message[i]);
 	} // pull the chars into ints for bigger size
 }
 
@@ -124,7 +124,7 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	PI->p = p;
 	PI->q = q;
 	PI->n = p * q;
-	PI->e = 11; //use 2 as e for now, fastest
+	PI->e = 17; //use 3 as e for now, fastest
 	int phin = (p-1) * (q-1);
 	int k, d;//temporary	
 	
@@ -132,9 +132,14 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	//use e as a (smaller), 
 	//d is coefficient(modular inverse) for e
 	//call extend euclidean to find the private key d
-	EE(PI->e, phin, &d, &k); 
-	PI->k = k;
+	EE(PI->e, phin, &d, &k);
+	if(d < 0)
+	{
+		d = phin + d;
+	}
 	PI->d = d; //assign value of d to PI for private key
+	PI->k = k;
+
 	printf("p = %d\nq = %d\nn = %d\ne = %d\nphin = %d\nk = %d\nd = %d\n",
 	  PI->p,PI->q,PI->n,PI->e,phin,PI->k,PI->d);
 }
