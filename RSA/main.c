@@ -7,7 +7,7 @@ int main (int argc, char * argv[])
 {
 	struct privateInfo PI;
 	char input[] = "hello";
-	int messagelength = sizeof(input);
+	int messagelength = sizeof(input)/sizeof(char);
 	int cipher[messagelength];
 	char message[messagelength];
 	int a = atoi(argv[1]);

@@ -57,14 +57,20 @@ int EE(int a, int b, int * x, int * y)
 void encrypt( int cipher[], char message[], int messagelength, struct privateInfo * PI )
 {
 	int intmessage[messagelength];
-	printf("\nsize: %d", messagelength);
+	printf("\nsize: %d\n", messagelength);
 	for(int i = 0; i < messagelength; i++)
 	{
-		intmessage[i] = message[i];
-		printf("%d: %d, %d",i,message[i],intmessage[i]);		
+		intmessage[i] = (int)message[i];
+		printf("%d: %d, %d\n",i,message[i],intmessage[i]);		
 	} // pull the chars into ints for bigger size
-	printf("message: %s\n",message);
-	//crypt(cipher, intmessage, messagelength, PI->n, PI->e);
+	printf("\nmessage: %s\n",message);
+	crypt(cipher, intmessage, messagelength, PI->n, PI->e);
+	printf("\nmessage after crypt()\n");
+	for(int i = 0; i < messagelength; i++)
+	{
+		printf("%d: %d, %d\n",i,message[i],cipher[i]);		
+	}
+	printf("\n");
 }
 
 
@@ -72,10 +78,11 @@ void encrypt( int cipher[], char message[], int messagelength, struct privateInf
 void decrypt( char message[], int cipher[], int messagelength, struct privateInfo * PI )
 {
 	int intmessage[messagelength];
-	crypt(intmessage, cipher, messagelength, PI->n, PI->e);
+	crypt(intmessage, cipher, messagelength, PI->n, PI->d);
 	for(int i = 0; i < sizeof(*intmessage); i++)
 	{
 		message[i] = (char)intmessage[i];
+		printf("intmessage[%d] : %d\n",i,intmessage[i]);
 	} // pull the chars into ints for bigger size
 }
 
@@ -117,7 +124,7 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	PI->p = p;
 	PI->q = q;
 	PI->n = p * q;
-	PI->e = 2; //use 2 as e for now, fastest
+	PI->e = 11; //use 2 as e for now, fastest
 	int phin = (p-1) * (q-1);
 	int k, d;//temporary	
 	
@@ -128,6 +135,6 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	EE(PI->e, phin, &d, &k); 
 	PI->k = k;
 	PI->d = d; //assign value of d to PI for private key
-	printf("p = %d\nq = %d\nn = %d\ne = 2\nphin = %d\nk = %d\nd = %d\n",
-	  PI->p,PI->q,PI->n,phin,PI->k,PI->d);
+	printf("p = %d\nq = %d\nn = %d\ne = %d\nphin = %d\nk = %d\nd = %d\n",
+	  PI->p,PI->q,PI->n,PI->e,phin,PI->k,PI->d);
 }
