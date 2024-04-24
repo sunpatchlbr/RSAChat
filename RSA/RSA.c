@@ -83,7 +83,7 @@ void decrypt( char message[], int cipher[], int messagelength, struct privateInf
 	for(int i = 0; i < messagelength; i++)
 	{
 		message[i] = (char)intmessage[i];
-		printf("message[%d] : %c\n",i,message[i]);
+		printf("intmessage[%d] : %d\n",i,intmessage[i]);
 	} // pull the chars into ints for bigger size
 }
 
@@ -146,7 +146,7 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	PI->p = p;
 	PI->q = q;
 	PI->n = p * q;
-	PI->e = 3; //use 3 as e for now, fastest
+	PI->e = 5; //use 3 as e for now, fastest
 	int phin = (p-1) * (q-1);
 	int k, d;//temporary	
 	
