@@ -1,4 +1,5 @@
 #include "RSA.h"
+#include <math.h>
 //RSA.c
 
 //Euclidean algorithm
@@ -82,7 +83,7 @@ void decrypt( char message[], int cipher[], int messagelength, struct privateInf
 	for(int i = 0; i < messagelength; i++)
 	{
 		message[i] = (char)intmessage[i];
-		printf("message[%d] : %d\n",i,message[i]);
+		printf("message[%d] : %c\n",i,message[i]);
 	} // pull the chars into ints for bigger size
 }
 
@@ -91,12 +92,33 @@ void decrypt( char message[], int cipher[], int messagelength, struct privateInf
 //use n
 //use e as x for encrypting the message
 //use d as x for decrypting the cipher
-void crypt ( int  target[], int initial[], int size, int n, int x)
+void crypt ( int target[], int initial[], int size, int n, int x)
 {
 	for(int i = 0; i < size; i++)
 	{
-		target[i] = ( powit(initial[i], x) ) % n;
+		target[i] = powermod(initial[i], x, n);
 	}
+}
+
+//find (x^y)%p
+int powermod(long long  x, unsigned int y, int p)
+{
+	int res = 1;
+	x = fmod(x,p);
+	
+	if ( x == 0 ) return 0;
+
+	while ( y > 0 )
+	{
+		if( y & 1 )
+			res = fmod((res*x),p);
+
+		y = y >> 1; 
+		x = fmod((x*x),p);	
+	
+	}
+
+	return res;
 }
 
 //iterative power
@@ -124,7 +146,7 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	PI->p = p;
 	PI->q = q;
 	PI->n = p * q;
-	PI->e = 17; //use 3 as e for now, fastest
+	PI->e = 3; //use 3 as e for now, fastest
 	int phin = (p-1) * (q-1);
 	int k, d;//temporary	
 	

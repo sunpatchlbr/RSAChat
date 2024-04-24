@@ -43,6 +43,9 @@ void decrypt(char message[], int cipher[], int messagelength, struct privateInfo
 // returns the message
 void crypt( int target[], int initial[], int size, int n, int x);
 
+//exponential mod
+int powermod(long long x, unsigned int y, int p);
+
 //use for exponentiation within crypt()
 int powit(int x, int y);
 
