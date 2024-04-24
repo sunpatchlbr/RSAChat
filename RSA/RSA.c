@@ -58,20 +58,20 @@ int EE(int a, int b, int * x, int * y)
 void encrypt( int cipher[], char message[], int messagelength, struct privateInfo * PI )
 {
 	int intmessage[messagelength];
-	printf("\nsize: %d\n", messagelength);
+	//printf("\nsize: %d\n", messagelength);
 	for(int i = 0; i < messagelength; i++)
 	{
 		intmessage[i] = (int)message[i];
-		printf("%d: %d, %d\n",i,message[i],intmessage[i]);		
+		//printf("%d: %d, %d\n",i,message[i],intmessage[i]);		
 	} // pull the chars into ints for bigger size
-	printf("\nmessage: %s\n",message);
+	//printf("\nmessage: %s\n",message);
 	crypt(cipher, intmessage, messagelength, PI->n, PI->e);
-	printf("\nmessage after crypt()\n");
+	/*printf("\nmessage after crypt()\n");
 	for(int i = 0; i < messagelength; i++)
 	{
 		printf("%d: %d, %d\n",i,message[i],cipher[i]);		
 	}
-	printf("\n");
+	printf("\n");*/
 }
 
 
@@ -83,7 +83,7 @@ void decrypt( char message[], int cipher[], int messagelength, struct privateInf
 	for(int i = 0; i < messagelength; i++)
 	{
 		message[i] = (char)intmessage[i];
-		printf("intmessage[%d] : %d\n",i,intmessage[i]);
+		//printf("intmessage[%d] : %d\n",i,intmessage[i]);
 	} // pull the chars into ints for bigger size
 }
 
@@ -140,14 +140,27 @@ int powit(int x, int y)
 	return z;
 }
 
+int generateE(int phin)
+{
+	int e = 2;
+	int x;
+	int y;
+	for(;e < phin;e++)
+	{
+		if ( EE(e,phin,&x,&y) == 1)
+			return e;
+	}
+	return -1;
+}
+
 //initialize a privateInfo struct
 void initializePrivate(struct privateInfo * PI, int p, int q)
 {
 	PI->p = p;
 	PI->q = q;
 	PI->n = p * q;
-	PI->e = 5; //use 3 as e for now, fastest
 	int phin = (p-1) * (q-1);
+	PI->e = generateE(phin); //use 3 as e for now, fastest
 	int k, d;//temporary	
 	
 	//use phin as b (bigger), k is coefficient for phin
@@ -162,6 +175,6 @@ void initializePrivate(struct privateInfo * PI, int p, int q)
 	PI->d = d; //assign value of d to PI for private key
 	PI->k = k;
 
-	printf("p = %d\nq = %d\nn = %d\ne = %d\nphin = %d\nk = %d\nd = %d\n",
-	  PI->p,PI->q,PI->n,PI->e,phin,PI->k,PI->d);
+	//printf("p = %d\nq = %d\nn = %d\ne = %d\nphin = %d\nk = %d\nd = %d\n",
+	//  PI->p,PI->q,PI->n,PI->e,phin,PI->k,PI->d);
 }

@@ -14,8 +14,9 @@ int main (int argc, char * argv[])
 	int b = atoi(argv[2]);
 	
 	initializePrivate( (struct privateInfo*) &PI, a, b);
-
+	printf("Original: %s\n", input);
 	encrypt(cipher, input, messagelength, (struct privateInfo*) &PI);
+	printf("Cipher: %d\n", cipher[0]);
 	decrypt(message, cipher,  messagelength, (struct privateInfo*) &PI);
 	printf("Message after decryption: %s\n", message);
 

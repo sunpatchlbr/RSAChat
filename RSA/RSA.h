@@ -20,6 +20,9 @@ struct publicInfo {
 
 void initializePrivate(struct privateInfo * PI, int p, int q);
 
+//generate a co prime e with phin
+int generateE(int phin);
+
 //recursively finds GCD
 //b should be bigger than a
 int E(int a, int b);
