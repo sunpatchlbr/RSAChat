@@ -52,4 +52,10 @@ int powermod(long long x, unsigned int y, int p);
 //use for exponentiation within crypt()
 int powit(int x, int y);
 
+//use for reading buffers
+void decrypt_and_copy();
+
+//use for writing buffers
+void encrypt_and_copy();
+
 #endif

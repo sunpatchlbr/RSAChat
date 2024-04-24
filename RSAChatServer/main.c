@@ -76,11 +76,12 @@ int main(int argc, const char *argv[]) {
 
 	int n;
 	int count = 0;
-	char buffer[140];
+	int buffsize = 1600; // 1600 bytes, 1600 chars, 200 long long integers
+	char buffer[buffsize];
 	for(;;) {
 		n = 0;
-		bzero(buffer,140);
-		read(newsockfd, buffer, 140); //read what client has said
+		bzero(buffer,buffsize);
+		read(newsockfd, buffer, buffsize); //read what client has said
 		printf("%d READ: %s\n", count, buffer);
 		
 		if ( strncmp("EXIT", buffer, 4) == 0) {
@@ -88,11 +89,11 @@ int main(int argc, const char *argv[]) {
 			break;
 		}
 
-		bzero(buffer, 140);
+		bzero(buffer, buffsize);
 		printf("%d WRITE: ", count++);
 		while( n < 140 && (buffer[n++] = getchar()) != '\n')
 			;
-		write(newsockfd, buffer, 140); //write buffer to socketfd
+		write(newsockfd, buffer, buffsize); //write buffer to socketfd
 		
 		printf("\n\n");
 
